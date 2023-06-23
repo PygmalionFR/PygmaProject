@@ -6,7 +6,7 @@ if(!isset($_SESSION['pseudo'])){
     header("Location: connexion.php");
     exit;
 }
-
+$page = 'home';
 $pseudo = $_SESSION['pseudo'];
 
 if(isset($_POST['deconnexion'])){
@@ -22,18 +22,20 @@ if(isset($_POST['deconnexion'])){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../style/homecss.css">
-    <title>Document</title>
+    <title>Acceuil</title>
 </head>
 <body>
-    <header>
-        <h1>PygmaProject</h1>
-        <div>
-            <button><a href="profil.php">Profil</a></button>
-            <button><a href="deconnexion.php">Déconnexion</a></button>
+    <?php include "header.php" ?>
+    <section>
+        <div class="box1">
+        a
         </div>
-    </header>
-    <div>
-     <?php include "flux.php"?>
-    </div>
+        <div class="box2">
+        <?php include "flux.php"?>
+        </div>
+        <div class="box3">
+        a
+        </div>
+    </section>
 </body>
 </html>

@@ -15,6 +15,7 @@ if (isset($_POST['deconnexion'])) {
     header("Location: ../index.php");
     exit;
 }
+$page = 'profil';
 ?>
 
 <!DOCTYPE html>
@@ -28,15 +29,11 @@ if (isset($_POST['deconnexion'])) {
 </head>
 
 <body>
-    <header>
-        <h2>PygmaProject</h2>
-        <form action="" method="post">
-            <button><a href="home.php">Accueil</a></button>
-            <input type="submit" name="deconnexion" value="Déconnexion" class="button">
-        </form>
-    </header>
+    <?php 
+        include "header.php"
+    ?>
 
-    <div>
+    <article class="article">
         <?php
         // Inclure le contenu de flux.php en tant que fonction
         function includeFlux($userId, $pseudo)
@@ -66,10 +63,12 @@ if (isset($_POST['deconnexion'])) {
                 $sender = $getSender->fetch(PDO::FETCH_ASSOC)['pseudo'];
 
                 // Afficher les détails de l'article
-                echo '<div>';
+                echo '<div class="article">';
                 echo '<p class="p1">Auteur : <br><a href="profil.php?user=' . $senderId . '">' . $sender . '</a></p>';
                 echo '<p class="p2">Contenu : ' . $article['content'] . '</p>';
                 echo '<p class="p3">' . date('Y-m-d H:i', strtotime($article['timestamp'])) . '</p>';
+                echo '<br>';
+                echo '<a href="publication.php?id=' . $article['id'] . '" class="voir-commentaires">Voir les commentaires</a>';
                 echo '</div>';
                 echo '<hr><br>';
             }
@@ -86,7 +85,9 @@ if (isset($_POST['deconnexion'])) {
             includeFlux($userId, $pseudo);
         }
         ?>
-    </div>
+    </article>
+
+    
 </body>
 
 </html>

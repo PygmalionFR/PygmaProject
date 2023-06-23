@@ -30,13 +30,6 @@ if (isset($_GET['id'])) {
     <title>Publication</title>
 </head>
 <body>
-    <header>
-    <h1>PygmaProject</h1>
-        <div>
-            <button><a href="home.php">Accueill</a></button>
-            <button><a href="deconnexion.php">Déconnexion</a></button>
-        </div>
-    </header>
         <button onclick="window.history.back();" class="back-button">Retour</button>
     <div class="publication">
         <div>

@@ -19,11 +19,14 @@ $articles = $getArticles->fetchAll(PDO::FETCH_ASSOC);
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fil d'actualité</title>
     <link rel="stylesheet" href="../style/flux.css">
-    <title>Flux</title>
+    <style>
+        /* Ajoutez ici vos styles personnalisés */
+    </style>
 </head>
 <body>
+    <h3>Fil d'actualité</h3>
 
     <?php if (isset($_SESSION['pseudo'])) : ?>
         <!-- Formulaire d'envoi d'article -->
@@ -49,7 +52,6 @@ $articles = $getArticles->fetchAll(PDO::FETCH_ASSOC);
         ?>
     <?php endif; ?>
 
-    <h3>Fil d'actualité</h3>
     <!-- Afficher les articles -->
     <div class="publication">
         <?php foreach ($articles as $article) : ?>
@@ -60,17 +62,43 @@ $articles = $getArticles->fetchAll(PDO::FETCH_ASSOC);
             $getSender->execute(array($senderId));
             $sender = $getSender->fetch(PDO::FETCH_ASSOC)['pseudo'];
             ?>
-            <div>
-                <p class="p1">Auteur : <br><a href="profil.php?user=<?php echo $senderId; ?>"><?php echo $sender; ?></a></p>
-                <p class="p2">Contenu : <?php echo $article['content']; ?></p>
-                <p class="p3"><?php echo date('Y-m-d H:i', strtotime($article['timestamp'])); ?></p>
-                <br>
-                <a href="publication.php?id=<?php echo $article['id']; ?>">Voir les commentaires</a>
+            <div class="box">
+                <div>
+                    <p class="p1">Auteur : <br><a href="profil.php?user=<?php echo $senderId; ?>"><?php echo $sender; ?></a></p>
+                    <div class="post-content">
+                        <p class="p2"><?php echo $article['content']; ?></p>
+                        <?php if (strlen($article['content']) > 60) : ?>
+                            <input type="checkbox" class="toggle-content" id="toggle-<?php echo $article['id']; ?>">
+                            <label for="toggle-<?php echo $article['id']; ?>" class="toggle-label toggle-label-show"></label>
+                        <?php endif; ?>
+                    </div>
+                    <p class="p3"><?php echo date('Y-m-d H:i', strtotime($article['timestamp'])); ?></p>
+                    <div class="full-content"><?php echo $article['content']; ?></div>
+                </div>
             </div>
             <hr>
             <br>
         <?php endforeach; ?>
     </div>
 
+    <script>
+        var toggleCheckboxes = document.getElementsByClassName('toggle-content');
+
+        for (var i = 0; i < toggleCheckboxes.length; i++) {
+            toggleCheckboxes[i].addEventListener('change', function() {
+                var parentBox = this.parentNode;
+                var postContent = parentBox.getElementsByClassName('post-content')[0];
+                var fullContent = parentBox.getElementsByClassName('full-content')[0];
+
+            if (this.checked) {
+                parentBox.classList.add('show-full'); // Ajouter la classe show-full
+                postContent.style.maxHeight = 'none';
+            } else {
+                parentBox.classList.remove('show-full'); // Retirer la classe show-full
+                postContent.style.maxHeight = '60px';
+            }
+        });
+    }
+    </script>
 </body>
 </html>

@@ -1,138 +1,157 @@
-*{
-    margin: 0;
-    padding: 0;
-    font-family: sans-serif;
-}
-
-header{
-    background-color: #192436;
-    color: #ffffff;
-    height: 60px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-}
-header div{
-    margin-left: calc(50% - 260px);
-}
-h1{
-    padding-left: 20%;
-}
-div button {
-	box-shadow:inset 0px 1px 0px 0px #54a3f7;
-	background:linear-gradient(to bottom, #007dc1 5%, #0061a7 100%);
-	background-color:#007dc1;
-	border-radius:3px;
-	border:1px solid #124d77;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:13px;
-	padding:6px 24px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #154682;
-    width: 130px;
-}
-div button:hover {
-	background:linear-gradient(to bottom, #0061a7 5%, #007dc1 100%);
-	background-color:#0061a7;
-}
-div button:active {
-	position:relative;
-	top:1px;
-}
-div button a{
-    text-decoration: none;
-    color: #ffffff;
-}
-
+/* Styles généraux */
 body {
     font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
     margin: 0;
+    padding: 0;
 }
-  
-.publication {
-    background-color: #f5f5f5;
-    margin: 20px;
-    padding: 20px;
-    border-radius: 5px;
-    margin-bottom: 20px;
 
-}
-  
-.publication .p1 {
+h3 {
+    margin: 10px 0;
+    font-size: 24px;
     font-weight: bold;
-    margin: 0;
-}
-  
-.publication .p2 {
-    margin: 0;
-}
-  
-.publication .p3 {
-    margin: 0;
-    font-size: 12px;
-    color: #999;
-}
-  
-.comments-section {
-    margin-top: 20px;
-}
-  
-.comment {
-    background-color: #f5f5f5;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-}
-  
-.comment p {
-    margin: 0;
-}
-  
-.comment .comment-timestamp {
-    font-size: 12px;
-    color: #999;
-}
-  
-.comment-form {
-    margin-top: 20px;
-}
-  
-.comment-form input[type="text"] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-  
-.comment-form input[type="submit"] {
-    margin-top: 10px;
-    padding: 10px 20px;
-    background-color: #0772af;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-  
-.comment-form input[type="submit"]:hover {
-    background-color: #45a049;
 }
 
-.back-button {
-    background-color: #007dc1;
-    color: #ffffff;
-    border: none;
-    border-radius: 3px;
-    padding: 7px 24px;
-    font-size: 13px;
+/* Styles pour la publication */
+.publication {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+}
+
+.box {
+    margin-bottom: 20px;
+}
+
+.p1 {
+    margin: 0;
+    font-weight: bold;
+}
+
+.post-content {
+    position: relative;
+}
+
+.p2 {
+    margin: 10px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-height: 60px;
+}
+
+.toggle-content {
+    display: none;
+}
+
+.toggle-label {
+    display: inline-block;
+    margin: 5px;
+    color: #007bff;
     cursor: pointer;
-    margin: 20px;
+}
+
+.p3 {
+    margin: 0;
+    font-size: 12px;
+    color: #999;
+}
+
+.full-content {
+    display: none;
+}
+
+.show-full .full-content {
+    display: block;
+}
+
+.show-full .p2 {
+    max-height: initial;
+}
+
+.show-full .toggle-label-show {
+    display: none;
+}
+
+.show-full .toggle-label-hide {
+    display: inline;
+}
+
+.commentaires textarea {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+.commentaires input[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.edit button {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.edit button a {
+    text-decoration: none;
+    color: #fff;
+}
+.toggle-label {
+    display: inline-block;
+    position: relative;
+    padding-left: 25px;
+    margin-right: 10px;
+    cursor: pointer;
   }
   
-  .back-button:hover {
-    background-color: #0061a7;
+  .toggle-label input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+  
+  .toggle-label .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 18px;
+    width: 18px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+  }
+  
+  .toggle-label .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  .toggle-label input[type="checkbox"]:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+  .toggle-label .checkmark:after {
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid #333;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+  
+  .toggle-label span {
+    font-size: 14px;
+    color: #333;
   }
   
