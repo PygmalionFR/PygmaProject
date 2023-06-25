@@ -21,9 +21,6 @@ $articles = $getArticles->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <title>Fil d'actualité</title>
     <link rel="stylesheet" href="../style/flux.css">
-    <style>
-        /* Ajoutez ici vos styles personnalisés */
-    </style>
 </head>
 <body>
     <h3>Fil d'actualité</h3>
@@ -68,9 +65,9 @@ $articles = $getArticles->fetchAll(PDO::FETCH_ASSOC);
                     <div class="post-content">
                         <p class="p2"><?php echo $article['content']; ?></p>
                         <?php if (strlen($article['content']) > 60) : ?>
-                            <input type="checkbox" class="toggle-content" id="toggle-<?php echo $article['id']; ?>">
-                            <label for="toggle-<?php echo $article['id']; ?>" class="toggle-label toggle-label-show"></label>
+                            <a class="toggle-link" href="publication.php?id=<?php echo $article['id']; ?>">Lire la suite</a>
                         <?php endif; ?>
+                        <a href="publication.php?id=<?php echo $article['id']; ?>">Commentaire</a>
                     </div>
                     <p class="p3"><?php echo date('Y-m-d H:i', strtotime($article['timestamp'])); ?></p>
                     <div class="full-content"><?php echo $article['content']; ?></div>
@@ -80,25 +77,30 @@ $articles = $getArticles->fetchAll(PDO::FETCH_ASSOC);
             <br>
         <?php endforeach; ?>
     </div>
-
     <script>
-        var toggleCheckboxes = document.getElementsByClassName('toggle-content');
+    var toggleLinks = document.getElementsByClassName('toggle-link');
 
-        for (var i = 0; i < toggleCheckboxes.length; i++) {
-            toggleCheckboxes[i].addEventListener('change', function() {
-                var parentBox = this.parentNode;
-                var postContent = parentBox.getElementsByClassName('post-content')[0];
-                var fullContent = parentBox.getElementsByClassName('full-content')[0];
+    for (var i = 0; i < toggleLinks.length; i++) {
+        toggleLinks[i].addEventListener('click', function(event) {
+            event.preventDefault(); // Empêcher le comportement par défaut du lien
 
-            if (this.checked) {
-                parentBox.classList.add('show-full'); // Ajouter la classe show-full
+            var parentBox = this.parentNode.parentNode;
+            var postContent = parentBox.getElementsByClassName('post-content')[0];
+            var fullContent = parentBox.getElementsByClassName('full-content')[0];
+
+            parentBox.classList.toggle('show-full'); // Ajouter ou supprimer la classe show-full
+
+            if (parentBox.classList.contains('show-full')) {
                 postContent.style.maxHeight = 'none';
+                this.textContent = 'Réduire'; // Modifier le texte du lien
             } else {
-                parentBox.classList.remove('show-full'); // Retirer la classe show-full
                 postContent.style.maxHeight = '60px';
+                this.textContent = 'Lire la suite'; // Modifier le texte du lien
             }
         });
     }
-    </script>
+</script>
+
+
 </body>
 </html>

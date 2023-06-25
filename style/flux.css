@@ -14,7 +14,7 @@ h3 {
 
 /* Styles pour la publication */
 .publication {
-    max-width: 600px;
+    max-width: 90%;
     margin: 0 auto;
     padding: 20px;
     background-color: #fff;
@@ -42,15 +42,11 @@ h3 {
     max-height: 60px;
 }
 
-.toggle-content {
-    display: none;
-}
-
-.toggle-label {
+.toggle-link {
     display: inline-block;
-    margin: 5px;
+    margin-top: 10px;
     color: #007bff;
-    cursor: pointer;
+    text-decoration: none;
 }
 
 .p3 {
@@ -66,92 +62,3 @@ h3 {
 .show-full .full-content {
     display: block;
 }
-
-.show-full .p2 {
-    max-height: initial;
-}
-
-.show-full .toggle-label-show {
-    display: none;
-}
-
-.show-full .toggle-label-hide {
-    display: inline;
-}
-
-.commentaires textarea {
-    width: 100%;
-    padding: 5px;
-    margin-bottom: 5px;
-}
-
-.commentaires input[type="submit"] {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-}
-
-.edit button {
-    background-color: #dc3545;
-    color: #fff;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    margin-right: 5px;
-}
-
-.edit button a {
-    text-decoration: none;
-    color: #fff;
-}
-.toggle-label {
-    display: inline-block;
-    position: relative;
-    padding-left: 25px;
-    margin-right: 10px;
-    cursor: pointer;
-  }
-  
-  .toggle-label input[type="checkbox"] {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-  }
-  
-  .toggle-label .checkmark {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 18px;
-    width: 18px;
-    border: 1px solid #ccc;
-    background-color: #fff;
-  }
-  
-  .toggle-label .checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
-  }
-  
-  .toggle-label input[type="checkbox"]:checked ~ .checkmark:after {
-    display: block;
-  }
-  
-  .toggle-label .checkmark:after {
-    left: 6px;
-    top: 2px;
-    width: 5px;
-    height: 10px;
-    border: solid #333;
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
-  }
-  
-  .toggle-label span {
-    font-size: 14px;
-    color: #333;
-  }
-  

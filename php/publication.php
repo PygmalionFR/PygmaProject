@@ -19,6 +19,16 @@ if (isset($_GET['id'])) {
     header("Location: flux.php");
     exit;
 }
+
+// Vérifier si l'utilisateur est connecté
+session_start();
+if (isset($_SESSION['pseudo'])) {
+    $userId = $_SESSION['pseudo'];
+} else {
+    // Redirection si l'utilisateur n'est pas connecté
+    header("Location: login.php");
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -30,10 +40,17 @@ if (isset($_GET['id'])) {
     <title>Publication</title>
 </head>
 <body>
-        <button onclick="window.history.back();" class="back-button">Retour</button>
+    <button onclick="window.history.back();" class="back-button">Retour</button>
     <div class="publication">
         <div>
-            <p class="p1">Auteur : <?php echo $article['sender']; ?></p>
+            <?php
+                // Récupérer le pseudo de l'expéditeur depuis la table des utilisateurs
+                $senderId = $article['sender'];
+                $getSender = $bdd->prepare('SELECT pseudo FROM espace_membre WHERE id = ?');
+                $getSender->execute(array($senderId));
+                $sender = $getSender->fetch(PDO::FETCH_ASSOC)['pseudo'];
+            ?>
+            <p class="p1">Auteur : <?php echo $sender; ?></p>
             <p class="p2">Contenu : <?php echo $article['content']; ?></p>
             <p class="p3"><?php echo date('Y-m-d H:i', strtotime($article['timestamp'])); ?></p>
         </div>
@@ -41,15 +58,27 @@ if (isset($_GET['id'])) {
         <br>
 
         <div class="comments-section">
-            <?php foreach ($comments as $comment) : ?>
-                <div class="comment">
-                    <!-- Afficher les détails du commentaire -->
-                    <p><?php echo $comment['content']; ?></p>
-                    <p class="comment-timestamp"><?php echo date('Y-m-d H:i', strtotime($comment['timestamp'])); ?></p>
-                    <br>
-                </div>
-            <?php endforeach; ?>
+            <?php if ($getComments->rowCount() > 0) : ?>
+                <?php foreach ($comments as $comment) : ?>
+                    <div class="comment">
+                        <!-- Récupérer le pseudo de la personne qui commente -->
+                        <?php
+                            $commentUserId = $comment['user_id'];
+                            $getCommentUser = $bdd->prepare('SELECT pseudo FROM espace_membre WHERE id = ?');
+                            $getCommentUser->execute(array($commentUserId));
+                            $commentUser = $getCommentUser->fetch(PDO::FETCH_ASSOC)['pseudo'];
+                        ?>
+                        <p>Auteur : <?php echo $commentUser; ?></p>
+                        <p><?php echo $comment['content']; ?></p>
+                        <p class="comment-timestamp"><?php echo date('Y-m-d H:i', strtotime($comment['timestamp'])); ?></p>
+                        <br>
+                    </div>
+                <?php endforeach; ?>
+            <?php else : ?>
+                <p>Aucun commentaire disponible.</p>
+            <?php endif; ?>
         </div>
+
 
         <!-- Formulaire pour ajouter un commentaire -->
         <form action="" method="post" class="comment-form">
@@ -64,9 +93,9 @@ if (isset($_GET['id'])) {
             $commentContent = $_POST['comment'];
             $articleId = $_POST['article_id'];
 
-            // Insérer le commentaire dans la base de données
-            $insertComment = $bdd->prepare('INSERT INTO comments (content, timestamp, article_id) VALUES (?, NOW(), ?)');
-            $insertComment->execute(array($commentContent, $articleId));
+            // Insérer le commentaire dans la base de données avec l'ID de l'utilisateur
+            $insertComment = $bdd->prepare('INSERT INTO comments (content, timestamp, article_id, user_id) VALUES (?, NOW(), ?, ?)');
+            $insertComment->execute(array($commentContent, $articleId, $userId));
 
             // Rafraîchir la page pour afficher le nouveau commentaire
             header("Location: publication.php?id=$articleId");
