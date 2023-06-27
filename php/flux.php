@@ -14,6 +14,20 @@ if (isset($_GET['user'])) {
 
 $articles = $getArticles->fetchAll(PDO::FETCH_ASSOC);
 ?>
+<style>
+    .comment-link-container {
+        text-align: right;
+    }
+
+    .comment-link {
+        text-decoration: none;
+        color: #007bff;
+    }
+
+    .comment-link:hover {
+        text-decoration: underline;
+    }
+</style>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -50,57 +64,65 @@ $articles = $getArticles->fetchAll(PDO::FETCH_ASSOC);
     <?php endif; ?>
 
     <!-- Afficher les articles -->
-    <div class="publication">
-        <?php foreach ($articles as $article) : ?>
-            <?php
-            // Récupérer le pseudo de l'expéditeur depuis la table des espace_membre
-            $senderId = $article['sender'];
-            $getSender = $bdd->prepare('SELECT pseudo FROM espace_membre WHERE id = ?');
-            $getSender->execute(array($senderId));
-            $sender = $getSender->fetch(PDO::FETCH_ASSOC)['pseudo'];
-            ?>
-            <div class="box">
-                <div>
-                    <p class="p1">Auteur : <br><a href="profil.php?user=<?php echo $senderId; ?>"><?php echo $sender; ?></a></p>
-                    <div class="post-content">
-                        <p class="p2"><?php echo $article['content']; ?></p>
-                        <?php if (strlen($article['content']) > 60) : ?>
-                            <a class="toggle-link" href="publication.php?id=<?php echo $article['id']; ?>">Lire la suite</a>
-                        <?php endif; ?>
-                        <a href="publication.php?id=<?php echo $article['id']; ?>">Commentaire</a>
+        <div class="publication">
+            <?php foreach ($articles as $article) : ?>
+                <?php
+                // Récupérer le pseudo de l'expéditeur depuis la table des espace_membre
+                $senderId = $article['sender'];
+                $getSender = $bdd->prepare('SELECT pseudo FROM espace_membre WHERE id = ?');
+                $getSender->execute(array($senderId));
+                $sender = $getSender->fetch(PDO::FETCH_ASSOC)['pseudo'];
+                ?>
+
+                <div class="box">
+                    <div>
+                        <p class="p1"><br><a href="profil.php?user=<?php echo $senderId; ?>"><?php echo $sender; ?></a></p>
+                        <div class="post-content">
+                            <p class="p2"><?php echo $article['content']; ?></p>
+                            <?php if (strlen($article['content']) > 60) : ?>
+                                <a class="toggle-link" href="publication.php?id=<?php echo $article['id']; ?>">Lire la suite</a>
+                                <div class="comment-link-container">
+                                    <a href="publication.php?id=<?php echo $article['id']; ?>" class="comment-link">Commentaire</a>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if (isset($_SESSION['id']) && $_SESSION['id'] == $senderId) : ?>
+                                <div class="action-buttons">
+                                    <a href="modifier_article.php?id=<?php echo $article['id']; ?>" class="edit-button">Modifier</a>
+                                    <a href="supprimer_article.php?id=<?php echo $article['id']; ?>" class="delete-button">Supprimer</a>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        <p class="p3"><?php echo date('Y-m-d H:i', strtotime($article['timestamp'])); ?></p>
+                        <div class="full-content"><?php echo $article['content']; ?></div>
                     </div>
-                    <p class="p3"><?php echo date('Y-m-d H:i', strtotime($article['timestamp'])); ?></p>
-                    <div class="full-content"><?php echo $article['content']; ?></div>
                 </div>
-            </div>
-            <hr>
-            <br>
-        <?php endforeach; ?>
-    </div>
+                <hr>
+                <br>
+            <?php endforeach; ?>
+        </div>
     <script>
-    var toggleLinks = document.getElementsByClassName('toggle-link');
+        var toggleLinks = document.getElementsByClassName('toggle-link');
 
-    for (var i = 0; i < toggleLinks.length; i++) {
-        toggleLinks[i].addEventListener('click', function(event) {
-            event.preventDefault(); // Empêcher le comportement par défaut du lien
+        for (var i = 0; i < toggleLinks.length; i++) {
+            toggleLinks[i].addEventListener('click', function(event) {
+                event.preventDefault(); // Empêcher le comportement par défaut du lien
 
-            var parentBox = this.parentNode.parentNode;
-            var postContent = parentBox.getElementsByClassName('post-content')[0];
-            var fullContent = parentBox.getElementsByClassName('full-content')[0];
+                var parentBox = this.parentNode.parentNode;
+                var postContent = parentBox.getElementsByClassName('post-content')[0];
+                var fullContent = parentBox.getElementsByClassName('full-content')[0];
 
-            parentBox.classList.toggle('show-full'); // Ajouter ou supprimer la classe show-full
+                parentBox.classList.toggle('show-full'); // Ajouter ou supprimer la classe show-full
 
-            if (parentBox.classList.contains('show-full')) {
-                postContent.style.maxHeight = 'none';
-                this.textContent = 'Réduire'; // Modifier le texte du lien
-            } else {
-                postContent.style.maxHeight = '60px';
-                this.textContent = 'Lire la suite'; // Modifier le texte du lien
-            }
-        });
-    }
-</script>
-
-
+                if (parentBox.classList.contains('show-full')) {
+                    postContent.style.maxHeight = 'none';
+                    this.textContent = 'Réduire'; // Modifier le texte du lien
+                } else {
+                    postContent.style.maxHeight = '60px';
+                    this.textContent = 'Lire la suite'; // Modifier le texte du lien
+                }
+            });
+        }
+    </script>
 </body>
 </html>

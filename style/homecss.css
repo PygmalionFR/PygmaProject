@@ -10,14 +10,17 @@ section{
     height: 100%;
 }
 .box1{
-    background-color: cadetblue;
     width: 20%;
-    height: auto;
+
 }
 .box2{
     width: 60%;
 }
 .box3{
-    background-color: cadetblue;
     width: 20%;
+}
+.commentairebtn a{
+    padding: 10px;
+    color: rgb(9, 9, 119);
+    text-decoration: none;
 }

@@ -23,7 +23,7 @@ if (isset($_GET['id'])) {
 // Vérifier si l'utilisateur est connecté
 session_start();
 if (isset($_SESSION['pseudo'])) {
-    $userId = $_SESSION['pseudo'];
+    $userId = $_SESSION['id']; // Utilisez la colonne 'id' au lieu de 'pseudo'
 } else {
     // Redirection si l'utilisateur n'est pas connecté
     header("Location: login.php");
@@ -36,7 +36,7 @@ if (isset($_SESSION['pseudo'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../style/flux.css">
+    <link rel="stylesheet" href="../style/publication.css">
     <title>Publication</title>
 </head>
 <body>
@@ -50,8 +50,8 @@ if (isset($_SESSION['pseudo'])) {
                 $getSender->execute(array($senderId));
                 $sender = $getSender->fetch(PDO::FETCH_ASSOC)['pseudo'];
             ?>
-            <p class="p1">Auteur : <?php echo $sender; ?></p>
-            <p class="p2">Contenu : <?php echo $article['content']; ?></p>
+            <p class="p1"><br><a href="profil.php?user=<?php echo $senderId; ?>"><?php echo $sender; ?></a></p>
+            <p class="p2"><?php echo !empty($article) ? $article['content'] : ''; ?></p>
             <p class="p3"><?php echo date('Y-m-d H:i', strtotime($article['timestamp'])); ?></p>
         </div>
         <hr>
@@ -63,12 +63,12 @@ if (isset($_SESSION['pseudo'])) {
                     <div class="comment">
                         <!-- Récupérer le pseudo de la personne qui commente -->
                         <?php
-                            $commentUserId = $comment['user_id'];
+                            $commentUserId = $comment['user_id']; // Utilisez la colonne 'user_id'
                             $getCommentUser = $bdd->prepare('SELECT pseudo FROM espace_membre WHERE id = ?');
                             $getCommentUser->execute(array($commentUserId));
                             $commentUser = $getCommentUser->fetch(PDO::FETCH_ASSOC)['pseudo'];
                         ?>
-                        <p>Auteur : <?php echo $commentUser; ?></p>
+                        <p><a href="profil.php?user=<?php echo $commentUserId; ?>"><?php echo $commentUser; ?></a></p>
                         <p><?php echo $comment['content']; ?></p>
                         <p class="comment-timestamp"><?php echo date('Y-m-d H:i', strtotime($comment['timestamp'])); ?></p>
                         <br>

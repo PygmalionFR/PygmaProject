@@ -28,13 +28,13 @@ if(isset($_POST['deconnexion'])){
     <?php include "header.php" ?>
     <section>
         <div class="box1">
-        a
+        
         </div>
         <div class="box2">
         <?php include "flux.php"?>
         </div>
         <div class="box3">
-        a
+        
         </div>
     </section>
 </body>

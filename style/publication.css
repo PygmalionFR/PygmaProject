@@ -1,0 +1,40 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    margin: 0;
+    padding: 0;
+}
+
+.publication {
+    max-width: 90%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+}
+
+.box {
+    margin-bottom: 20px;
+}
+
+.p1 {
+    margin: 0;
+    font-weight: bold;
+}
+
+.post-content {
+    position: relative;
+}
+
+.toggle-link {
+    display: inline-block;
+    margin-top: 10px;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.p3 {
+    margin: 0;
+    font-size: 12px;
+    color: #999;
+}
