@@ -23,8 +23,12 @@ if(isset($_POST['inscription'])){
     }else{
         // Enregistrer l'utilisateur dans la base de données
         $bdd = new PDO('mysql:host=localhost;dbname=PygmaProject;charset=utf8', 'root', '');
+
+        // Hacher le mot de passe
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
         $insertUser = $bdd->prepare('INSERT INTO espace_membre (email, pseudo, password) VALUES (?, ?, ?)');
-        $insertUser->execute([$email, $pseudo, $password]);
+        $insertUser->execute([$email, $pseudo, $hashedPassword]);
 
         // Rediriger l'utilisateur vers la page de connexion
         header("Location: connexion.php");
@@ -61,6 +65,7 @@ if(isset($_POST['inscription'])){
         <input type="password" name="confirm_password" required><br>
 
         <input type="submit" name="inscription" value="S'inscrire">
+        <p>Vous avez déja un compte ? <a href="connexion.php">Se connecter</a></p>
     </form>
 </body>
 </html>

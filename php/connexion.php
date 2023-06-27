@@ -17,15 +17,15 @@ if(isset($_POST['connexion'])){
 
     // Vérifier les informations de connexion dans la base de données
     $bdd = new PDO('mysql:host=localhost;dbname=PygmaProject;charset=utf8', 'root', '');
-    $getUser = $bdd->prepare('SELECT * FROM espace_membre WHERE pseudo = ? AND password = ?');
-    $getUser->execute([$pseudo, $password]);
+    $getUser = $bdd->prepare('SELECT * FROM espace_membre WHERE pseudo = ?');
+    $getUser->execute([$pseudo]);
     $user = $getUser->fetch(PDO::FETCH_ASSOC);
 
-    if($user){
+    if($user && password_verify($password, $user['password'])){
         // Authentification réussie, créer la session et rediriger vers la page de profil
         $_SESSION['pseudo'] = $user['pseudo'];
         $_SESSION['id'] = $user['id'];
-        header("Location: home.php");
+        header("Location: profil.php");
         exit;
     }else{
         // Informations de connexion invalides, afficher un message d'erreur
