@@ -48,11 +48,12 @@ A voir pour plus de fonctionaliter
 ### Tested Navigator
 
   ```
-   Brave browser
+   - Mozila Firefox
+   - Brave browser
   ```
 
 ### Social
 
-<a href="https://discord.com/users/426377537606778881.">Discord</a>
+<a href="https://discord.gg/uxCyJz3zxp">Discord</a>
 
 ## License

@@ -44,9 +44,6 @@ if(isset($_POST['connexion'])){
 </head>
 <body>
     
-    <?php if(isset($error)): ?>
-        <p><?php echo $error; ?></p>
-    <?php endif; ?>
     <form action="" method="POST">
     <h2>Connexion</h2>
     <br>
@@ -59,6 +56,9 @@ if(isset($_POST['connexion'])){
         <input type="submit" name="connexion" value="Se connecter">
         <br><br>
         <p>Vous n'avez pas de compte ? <a href="inscription.php">S'inscrire</a></p>
+        <?php if(isset($error)): ?>
+            <p style="color: red;background-color: white;padding: 0.5rem 1rem;border-radius: 15px;margin: 1rem auto;text-align: center;"><?php echo $error; ?></p>
+        <?php endif; ?>
     </form>
     
 </body>
